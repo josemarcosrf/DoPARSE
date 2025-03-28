@@ -7,19 +7,31 @@ The APIs are built using [Ray](https://docs.ray.io/en/master/index.html) Serve, 
 
 ### Requirements
 
- - python 3.12
+- python 3.12
 
-### Install
+### 💿 Install
 
-```shell
+```bash
 # Install pdm and uv
 curl -sSL https://pdm-project.org/install-pdm.py | python3 -
 curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # Configure PDM to use UV
 pdm config use_uv true
 pdm config python.install_root $(uv python dir)
+
 # Install python deps
 pdm sync -G :all
+```
+
+### 🏃‍➡️ Run
+
+We use [invoke](https://www.pyinvoke.org/) to simplify deploying the services:
+
+```bash
+inv ray     # start ray local cluster
+inv marker  # deploy the marker OCR service
+inv docling # deploy the docling OCR service
 ```
 
 ## Services
