@@ -1,0 +1,63 @@
+[project]
+name = "DoPARSE"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "josemarcosrf", email = "jose.marcos.rf@gmail.com"},
+]
+dependencies = [
+    "uvicorn>=0.34.0",
+    "fastapi>=0.115.11",
+    "python-multipart>=0.0.20",
+    "ray[serve]>=2.43.0",
+    "invoke>=2.2.0",
+]
+requires-python = "==3.12.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.optional-dependencies]
+marker = [
+    "marker-pdf>=1.6.1",
+]
+docling = [
+    "llama-index-readers-docling>=0.3.2",
+    "llama-index-node-parser-docling>=0.3.1",
+    "vllm>=0.8.2",
+    "docling-core>=2.24.1",
+]
+dev = [
+    "isort>=6.0.0",
+    "ruff>=0.9.7",
+    "pre-commit>=4.1.0",
+]
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts.check-lint]
+shell = """
+    ruff format --check .
+    isort --check .
+    ruff check .
+"""
+help = "Run linting and formating checks."
+
+[tool.pdm.scripts.reformat]
+shell = """
+    isort .
+    ruff format .
+"""
+help = "Reformat the code using isort and ruff."
+
+[tool.ruff]
+line-length = 88
+output-format = "grouped"
+
+
+[tool.isort]
+profile = "black"
+line_length = 88
+filter_files = true
+force_alphabetical_sort_within_sections = true
+
