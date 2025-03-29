@@ -30,7 +30,7 @@ def pdf_to_images(pdf_path: Path, zoom=2):
     mat = fitz.Matrix(zoom, zoom)  # Define the zoom factor
     images = []
 
-    print(f"🖨️ Printing {len(doc)} pages from {pdf_path}...")
+    print(f" 🖨️ Printing {len(doc)} pages from {pdf_path}...")
     for page_num in range(len(doc)):
         print(f"📄 Extracting page {page_num + 1}...")
         page = doc.load_page(page_num)
@@ -109,10 +109,10 @@ class smolDoclingConverter:
         It uses the `smolDocling` model to perform the conversion.
 
         Args:
-            files (list[UploadFile]): The list of PDF files to be converted.
+            files (UploadFile): The file to be converted.
 
         Returns:
-            dict: A dictionary mapping each file name to its conversion result.
+            str: The conversion result, text markdown
         """
         try:
             # Create a temporary file to store the uploaded PDF
@@ -120,7 +120,7 @@ class smolDoclingConverter:
                 delete=True, suffix=Path(file.filename).suffix
             ) as tmp_file:
                 tmp_file.write(await file.read())
-                return self._convert_from_path(tmp_file.name)
+                return self._convert_from_path(Path(tmp_file.name))
         except Exception as e:
             raise HTTPException(
                 status_code=500,
