@@ -1,4 +1,5 @@
 import tempfile
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, UploadFile
 from marker.config.parser import ConfigParser
@@ -54,9 +55,12 @@ class PDFToMarkdownConverter:
             files (list[UploadFile]): List of PDF files to be converted
         """
         try:
-            with tempfile.NamedTemporaryFile(delete=True) as tmp_file:
+            file_extension = Path(file.filename).suffix
+            with tempfile.NamedTemporaryFile(
+                suffix=file_extension, delete=True
+            ) as tmp_file:
                 tmp_file.write(await file.read())
-                tmp_file_path = tmp_file.name
+                tmp_file_path = Path(tmp_file.name)
                 rendered = self.converter(tmp_file_path)
 
             text, _, _ = text_from_rendered(rendered)

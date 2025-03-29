@@ -80,6 +80,10 @@ class smolDoclingConverter:
         return doctags
 
     def _convert_from_path(self, pdf_path: Path):
+        # Check it is a PDF file
+        if pdf_path.suffix.lower() != ".pdf":
+            raise ValueError(f"❌ {pdf_path} is not a PDF file.")
+
         # Convert PDF to images
         images = pdf_to_images(pdf_path)
 
@@ -111,7 +115,10 @@ class smolDoclingConverter:
             dict: A dictionary mapping each file name to its conversion result.
         """
         try:
-            with tempfile.NamedTemporaryFile(delete=True) as tmp_file:
+            # Create a temporary file to store the uploaded PDF
+            with tempfile.NamedTemporaryFile(
+                delete=True, suffix=Path(file.filename).suffix
+            ) as tmp_file:
                 tmp_file.write(await file.read())
                 return self._convert_from_path(tmp_file.name)
         except Exception as e:
