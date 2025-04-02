@@ -29,9 +29,13 @@ pdm sync -G :all
 We use [invoke](https://www.pyinvoke.org/) to simplify deploying the services:
 
 ```bash
+python -m src.doparse docling
+```
+
+If you want to run Ray without running the parser serving:
+
+```bash
 inv ray     # start ray local cluster
-inv marker  # deploy the marker OCR service
-inv docling # deploy the docling OCR service
 ```
 
 ## Services
