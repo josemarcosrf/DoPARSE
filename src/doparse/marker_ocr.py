@@ -71,8 +71,8 @@ class PDFToMarkdownConverter:
                 detail=f"💥 Failed to convert {file.filename} to markdown: {e}",
             )
 
-    @app.get("/convert")
-    async def convert_from_path(self, pdf_path: str) -> str:
+    @app.get("/local")
+    async def convert_from_local(self, pdf_path: str) -> str:
         """Convert a PDF file to text
 
         Args:

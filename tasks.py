@@ -12,7 +12,7 @@ def marker(c):
     """Start the marker OCR service."""
     c.run(
         ".venv/bin/serve run -r src.doparse.marker_ocr:converter "
-        f"--route-prefix '/marker' --name marker"
+        "--route-prefix '/marker' --name marker"
     )
 
 
@@ -21,5 +21,5 @@ def docling(c):
     """Start the docling OCR service."""
     c.run(
         ".venv/bin/serve run -r src.doparse.smoldocling_ocr:converter "
-        f"--route-prefix '/docling' --name docling"
+        "--route-prefix '/docling' --name docling"
     )
