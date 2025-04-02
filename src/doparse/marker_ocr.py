@@ -1,7 +1,6 @@
 import tempfile
 from pathlib import Path
 
-import click
 from fastapi import FastAPI, HTTPException, UploadFile
 from marker.config.parser import ConfigParser
 from marker.converters.pdf import PdfConverter
@@ -15,7 +14,7 @@ app = FastAPI(title="marker-pdf-ocr", root_path="/marker")
 
 @serve.deployment(name="marker-ocr")
 @serve.ingress(app)
-class PDFToMarkdownConverter:
+class MarkerPDFConverter:
     def __init__(
         self,
         use_llm: bool = False,
@@ -92,22 +91,6 @@ class PDFToMarkdownConverter:
 
 
 # # Deploy (without parameters for now - default values are used)
-# converter = PDFToMarkdownConverter.options(
+# converter = MarkerPDFConverter.options(
 #     ray_actor_options={"num_gpus": 0.5, "num_cpus": 4},
 # ).bind()
-
-
-@click.command("serve")
-@click.option("--gpus", type=float, default=0.5, help="Number of GPUs to use.")
-@click.option("--cpus", type=float, default=4, help="Number of CPUs to use.")
-@click.option("--port", default=8000, help="Port to run the server on.")
-def main(gpus: float, cpus: int, port: int):
-    """Run the FastAPI app with Ray Serve."""
-    converter = PDFToMarkdownConverter.options(
-        ray_actor_options={"num_gpus": gpus, "num_cpus": cpus},
-    ).bind()
-    serve.run(converter, blocking=True, name="marker-ocr", route_prefix="/marker")
-
-
-if __name__ == "__main__":
-    main()
