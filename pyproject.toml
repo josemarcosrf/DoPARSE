@@ -53,6 +53,9 @@ shell = """
 """
 help = "Reformat the code using isort and ruff."
 
+[tool.pdm.scripts]
+doparse = "python -m src.doparse"
+
 [tool.ruff]
 line-length = 88
 output-format = "grouped"

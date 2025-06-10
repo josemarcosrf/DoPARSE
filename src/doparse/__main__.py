@@ -1,16 +1,19 @@
 import click
 from ray import serve
+from ray.serve.config import HTTPOptions
 
 from src.doparse import ServiceTypes
 
 
 @click.command()
 @click.argument(
-    "service", type=click.Choice(ServiceTypes), default=ServiceTypes.Docling
+    "service",
+    type=click.Choice([e.value for e in ServiceTypes], case_sensitive=True),
+    default=ServiceTypes.Docling,
 )
-@click.option("--gpus", type=float, default=0.5, help="Number of GPUs to use.")
+@click.option("--gpus", type=float, default=0, help="Number of GPUs to use.")
 @click.option("--cpus", type=float, default=4, help="Number of CPUs to use.")
-@click.option("--port", default=8000, help="Port to run the server on.")
+@click.option("--port", default=8080, help="Port to run the server on.")
 def main(service: str, gpus: float, cpus: int, port: int):
     """Run the FastAPI app with Ray Serve."""
     if service == ServiceTypes.Docling:
@@ -27,11 +30,12 @@ def main(service: str, gpus: float, cpus: int, port: int):
         ).bind()
 
     # Start Ray Serve
+    serve.start(http_options=HTTPOptions(port=port))
     serve.run(
         converter,
         blocking=True,
-        name=f"{service.value}-ocr",
-        route_prefix=f"/{service.value}",
+        name=f"{service}-ocr",
+        route_prefix=f"/{service}",
     )
 
 

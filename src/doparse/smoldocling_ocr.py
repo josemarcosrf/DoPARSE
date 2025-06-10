@@ -100,7 +100,7 @@ class smolDoclingConverter:
     def _convert(
         self, file_path: Path, export_format: ExportFormat = ExportFormat.Markdown
     ):
-        print(f"Using docling to convert {file_path} ➡️ {export_format.name}")
+        print(f"Using docling to convert {file_path} ➡️  {export_format.name}")
         result = self.converter.convert(file_path)
         if export_format == ExportFormat.Markdown:
             return result.document.export_to_markdown()
