@@ -60,8 +60,7 @@ class MarkerPDFConverter:
                 suffix=file_extension, delete=True
             ) as tmp_file:
                 tmp_file.write(await file.read())
-                tmp_file_path = Path(tmp_file.name)
-                rendered = self.converter(tmp_file_path)
+                rendered = self.converter(tmp_file.name)
 
             text, _, _ = text_from_rendered(rendered)
             return text

@@ -1,7 +1,8 @@
 # DoPARSE: **Do**cument **Pa**rsing via **R**ay **Se**rve
 
 This repo contains document parsing APIs for various document types.
-The APIs are built using [Ray](https://docs.ray.io/en/master/index.html) Serve, a scalable and flexible library for serving models and other Python objects.
+The APIs are built using [Ray](https://docs.ray.io/en/master/index.html) Serve,
+a scalable and flexible library for serving models and other Python objects.
 
 ## HowTo
 
@@ -22,17 +23,35 @@ pdm config python.install_root $(uv python dir)
 
 # Install python deps
 pdm sync -G :all
+
+# If you prefer to only install marker
+pdm sync -G marker
+
+# If you prefer only Docling
+pdm sync -G docling
 ```
 
 ### 🏃‍➡️ Run
 
-We use [invoke](https://www.pyinvoke.org/) to simplify deploying the services:
+To start the parsing services through Ray serve:
 
 ```bash
-python -m src.doparse docling
+# Docling OCR
+pdm doparse docling # Or: python -m src.doparse docling
+# Marker
+pdm doparse marker
 ```
 
-If you want to run Ray without running the parser serving:
+> ℹ️ The first `doparse run` will either connect or start locally to an existing
+Ray cluster. If it starts the cluster it will block, otherwise will just deploy
+the service and return (non-blocking).
+
+> 💡 A ray address can be passed with: `--ray-address`
+
+> 💡 You can check the available routes at: [http://localhost:8080/-/routes](http://localhost:8080/-/routes)
+
+If you want to run Ray without running the parser serving, we use
+[invoke](https://www.pyinvoke.org/) to simplify deploying the services:
 
 ```bash
 inv ray     # start ray local cluster

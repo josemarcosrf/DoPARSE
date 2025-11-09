@@ -12,27 +12,29 @@ dependencies = [
     "ray[serve]>=2.43.0",
     "invoke>=2.2.0",
     "click>=8.1.8",
+    "Pillow>=10.1.0",
+    "torch>=2.9.0",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
 license = {text = "MIT"}
 
 [project.optional-dependencies]
-# marker = [
-#     "marker-pdf>=1.6.1",
-# ]
 dev = [
     "isort>=6.0.0",
     "ruff>=0.9.7",
     "pre-commit>=4.1.0",
 ]
-docling = [
-    "docling",
-    "deepsearch-glm>=1.0.0",
-    "tokenizers<0.20,>=0.19",
-]
 macos = [
     "mlx-vlm>=0.0.7",
+]
+marker = [
+    "marker-pdf>=1.10.1",
+]
+docling = [
+    "docling>=2.61.1",
+    "deepsearch-glm>=1.0.0",
+    "tokenizers>=0.22.1",
 ]
 
 [tool.pdm]
